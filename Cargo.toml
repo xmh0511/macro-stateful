@@ -2,6 +2,8 @@
 name = "macro-stateful"
 version = "0.1.0"
 edition = "2021"
+description="A library to help record state in a global scope"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 ctor = "0.2.9"
