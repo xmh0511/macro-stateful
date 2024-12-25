@@ -1,4 +1,4 @@
-use macro_stateful::{define_state, set_state};
+use macro_stateful::{define_state, set_state, take_out};
 
 set_state! {UniqueState,|v|{
     let v = v.as_mut().unwrap();
@@ -23,4 +23,7 @@ define_state! {UniqueState:i32 = {
     0
 }}
 
-fn main() {}
+fn main() {
+    let r = take_out!(UniqueState);
+    println!("{r:?}");
+}

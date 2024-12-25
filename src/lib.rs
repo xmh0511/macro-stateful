@@ -1,7 +1,10 @@
 pub use ctor::ctor;
 use std::sync::Mutex;
+
+#[doc(hidden)]
 pub struct StateFull<T>(Mutex<Option<T>>);
 
+#[doc(hidden)]
 impl<T> StateFull<T> {
     pub const fn new() -> Self {
         Self(Mutex::new(None))
@@ -14,6 +17,13 @@ impl<T> StateFull<T> {
     pub fn take(&self) -> Option<T> {
         self.0.lock().unwrap().take()
     }
+}
+
+#[macro_export]
+macro_rules! take_out {
+    ($id:ident) => {
+        $id::get().take()
+    };
 }
 
 #[macro_export]
@@ -30,17 +40,17 @@ macro_rules! set_state {
 
 #[macro_export]
 macro_rules! define_state {
-    ($id:ident:$typ:ty = $init:expr) => {
+    ($id:ident:$typ:ty $(= $init:expr)?) => {
         #[allow(non_camel_case_types)]
         struct $id;
         impl $id {
             pub fn get() -> &'static $crate::StateFull<$typ> {
                 static SINGLETON: $crate::StateFull<$typ> = $crate::StateFull::new();
-                SINGLETON.set_value(|v| {
+                $(SINGLETON.set_value(|v| {
                     if v.is_none() {
                         *v = Some($init);
                     }
-                });
+                });)?
                 &SINGLETON
             }
         }
