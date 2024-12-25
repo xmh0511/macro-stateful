@@ -1,3 +1,10 @@
+Recording state via the global scope variable
+
+### Usage:
+Using the `define_state` macro, define the state with a unique name and specify its type. Using `set_state` to modify the state, the parameter type in the callback is `Option<T>` where T is the type specified for the state.
+
+
+````rust
 use macro_stateful::{define_state, set_state};
 
 set_state! {UniqueState,|v|{
@@ -24,3 +31,6 @@ define_state! {UniqueState:i32 = {
 }}
 
 fn main() {}
+
+````
+

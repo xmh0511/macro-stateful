@@ -30,7 +30,7 @@ macro_rules! set_state {
 
 #[macro_export]
 macro_rules! define_state {
-    ($id:ident,$typ:ty,$init:expr) => {
+    ($id:ident:$typ:ty = $init:expr) => {
         #[allow(non_camel_case_types)]
         struct $id;
         impl $id {
